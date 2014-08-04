@@ -15,10 +15,10 @@ echo "change sql connection"
 sed -i 's|sqlite:////var/lib/keystone/keystone.db|mysql://keystone:KEYSTONE_DBPASS@controller/keystone|g' /etc/keystone/keystone.conf
 sleep 3
 #remove the first character on the third line
-sed -i  '3s/^.//' /etc/keystone/keystone.conf
+sed -i  '13s/^.//' /etc/keystone/keystone.conf
 sed -i 's/^[ \t]*//' /etc/keystone/keystone.conf #remove space ib front of line
 
-sed -i 's|KEYSTONE_DBPASS|'$KEYSTONE_DBPASS'|g' /etc/keystone/keystone.conf && sed -i 's|ADMIN_TOKEN|'$ADMIN_TOKEN'|g' /etc/keystone/keystone.conf
+sed -i 's|KEYSTONE_DBPASS|'$KEYSTONE_DBPASS'|g' /etc/keystone/keystone.conf && sed -i 's|ADMIN|'$ADMIN_TOKEN'|g' /etc/keystone/keystone.conf
 
 sleep 3
 echo "---------------------------- Create datebase ----------------------------"
@@ -33,3 +33,6 @@ fi
 echo "---------------------------- Restart Keystone Service----------------------------"
 service keystone restart
 sleep 3
+#missing config log path 
+(crontab -l -u keystone 2>&1 | grep -q token_flush) || \
+echo '@hourly /usr/bin/keystone-manage token_flush >/var/log/keystone/keystone-tokenflush.log 2>&1' >> /var/spool/cron/crontabs/keystone

@@ -50,10 +50,30 @@ rabbit_password = $RABBIT_PASS
 
 auth_strategy = keystone
 
+
+network_api_class = nova.network.api.API
+security_group_api = nova
 [database]
 connection = mysql://nova:$NOVA_DBPASS@$HOST_NAME/nova
+[keystone_authtoken]
+
+auth_uri = http://$HOST_NAME:5000
+auth_host = $HOST_NAME
+auth_port = 35357
+auth_protocol = http
+admin_tenant_name = service
+admin_user = nova
+admin_password = $NOVA_DBPASS
 EOF
 
+echo "Edit api-paste.ini"
+sed -i '/auth_host = 127.0.0.1/aauth_uri = http://HOST_NAME:5000/' /etc/nova/api-paste.ini && \
+sed -i 's|HOST_NAME|'$HOST_NAME'|' /etc/nova/api-paste.ini
+
+sed -i 's|auth_host = 127.0.0.1|auth_host = '$HOST_NAME'|' /etc/nova/api-paste.ini 
+sed -i 's|admin_tenant_name = %SERVICE_TENANT_NAME%|admin_tenant_name = '$SERVICE_TENANT_NAME'|'  /etc/nova/api-paste.ini
+sed -i 's|admin_user = %SERVICE_USER%|admin_user = nova|' /etc/nova/api-paste.ini
+sed -i 's|admin_password = %SERVICE_PASSWORD%|admin_password = '$NOVA_PASS'|' /etc/nova/api-paste.ini
 echo "---------------------------- create table ----------------------------"
 
 su -s /bin/sh -c "nova-manage db sync" nova

@@ -22,6 +22,8 @@ echo "---------------------------- Install Messaging server cho ubuntu ---------
 apt-get install -y rabbitmq-server
 echo "$RABBIT_PASS"
 rabbitmqctl change_password guest $RABBIT_PASS
+echo "---------------------------- Install python-mysqldb ----------------------------"
+apt-get install python-mysqldb -y 
 
 echo "---------------------------- Restart Rabbit and Finish ----------------------------"
 sleep 2

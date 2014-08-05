@@ -9,8 +9,8 @@ apt-get install -y python-software-properties && add-apt-repository cloud-archiv
 apt-get update && apt-get -y upgrade && apt-get -y dist-upgrade 
 
 echo "---------------------------- Config hostname on ubuntu ----------------------------"
-hostname $HOST_NAME
-echo "$HOST_NAME" > /etc/hostname
+hostname $HOST_NAME_COMPUTE
+echo "$HOST_NAME_COMPUTE" > /etc/hostname
 
 echo "---------------------------- Install and config NTP ----------------------------"
 apt-get install -y ntp

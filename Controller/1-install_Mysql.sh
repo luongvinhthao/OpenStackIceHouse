@@ -7,6 +7,7 @@ echo mysql-server mysql-server/root_password_again password $MYSQL_ADMIN_PASS | 
 echo $MYSQL_ADMIN_PASS
 sleep 3 
 apt-get install expect -y 
+echo "---------------------------- install python-mysqldb mysql-server ----------------------------"
 apt-get install python-mysqldb mysql-server  -y 
 
 mysql_install_db
@@ -33,6 +34,11 @@ echo "$MYSQL"
 apt-get remove --purge -y expect
 
 #/etc/mysql/my.cnf and set the bind-addressds
+if [[ ! -f /etc/mysql/my.cnf ]]; then
+	#statements
+	cp /etc/mysql/my.cnf /etc/mysql/my.cnf.bak
+fi
+echo " back up at etc/mysql/my.cnf ----------------------------"
 echo "---------------------------- set bind-address at etc/mysql/my.cnf ----------------------------"
 
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/my.cnf
@@ -78,4 +84,4 @@ FLUSH PRIVILEGES;
 EOF
 exit 0 
 
-echo "---------------------------- finish ----------------------------"
+echo "---------------------------- Finish ----------------------------"

@@ -22,6 +22,7 @@ if [[ ! /etc/nova/nova.conf.bak ]]; then
 	#statements
 	cp /etc/nova/nova.conf /etc/nova/nova.conf.bak
 fi
+echo 'kvm_intel' >> /etc/modules
 echo "---------------------------- Edit /etc/nova/nova.conf ----------------------------"
 cat << EOF > /etc/nova/nova.conf
 [DEFAULT]
@@ -52,7 +53,7 @@ enabled_apis=ec2,osapi_compute,metadata
 auth_strategy=keystone
 rpc_backend = rabbit
 rabbit_host = controller
-rabbit_password = openstack
+rabbit_password = openstack12345
 
 my_ip=$COMPUTE_IP
 vnc_enabled=True

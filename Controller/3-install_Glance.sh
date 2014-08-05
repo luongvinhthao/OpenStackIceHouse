@@ -7,17 +7,20 @@ echo "---------------------------- Install_Glance ----------------------------"
 
 apt-get install glance python-glanceclient -y 
 echo " Install glance python-glanceclient ---------------------------- done"
-if [ !-f /etc/glance/glance-api.conf.bak ]; then #check the file exist 
+if [ ! -f /etc/glance/glance-api.conf.bak ]; then #check the file exist 
 	#statements
-	echo "back up file config"
+	echo "back up file glance-api.conf"
 	cp /etc/glance/glance-api.conf /etc/glance/glance-api.conf.bak
+	echo "back up file glance-registry.conf"
 	cp /etc/glance/glance-registry.conf /etc/glance/glance-registry.conf.bak
 fi
 
 echo "---------------------------- Edit glance-api.conf ----------------------------"
-sed -i 's|sqlite:////var/lib/glance/glance.sqlite|mysql://glance:GLANCE_DBPASS@HOST_NAME/glance|' /etc/glance/glance-api.conf
+sed -i 's|sqlite_db = /var/lib/glance/glance.sqlite|connection = mysql://glance:GLANCE_DBPASS@HOST_NAME/glance|' /etc/glance/glance-api.conf
 sed -i 's|HOST_NAME|'$HOST_NAME'|' /etc/glance/glance-api.conf
 sed -i 's|GLANCE_DBPASS|'$GLANCE_DBPASS'|' /etc/glance/glance-api.conf
+
+
 echo "Change sql connetction ---------------------------- done"
 sleep 2
 
@@ -47,7 +50,7 @@ echo "Insert [keystone_authtoken] ---------------------------- done"
 sleep 2
 
 echo "Insert [paste_deploy] ---------------------------- "
-sed -i 's/#flavor=/flavor= keystone/' /etc/glance/glance-api.conf
+sed -i 's/#flavor=/flavor = keystone/' /etc/glance/glance-api.conf
 echo "Change flavor ---------------------------- done"
 echo "Insert [paste_deploy] ---------------------------- done"
 sleep 2
@@ -55,7 +58,7 @@ sleep 2
 
 echo "---------------------------- Edit glance-registry.conf ----------------------------"
 
-sed -i 's|sqlite:////var/lib/glance/glance.sqlite|mysql://glance:GLANCE_DBPASS@HOST_NAME/glance|g' /etc/glance/glance-registry.conf
+sed -i 's|sqlite_db = /var/lib/glance/glance.sqlite|connection = mysql://glance:GLANCE_DBPASS@HOST_NAME/glance|g' /etc/glance/glance-registry.conf
 sed -i 's|HOST_NAME|'$HOST_NAME'|' /etc/glance/glance-registry.conf
 sed -i 's|GLANCE_DBPASS|'$GLANCE_DBPASS'|g' /etc/glance/glance-registry.conf
 echo "Change sql connetction----------------------------done"
@@ -78,7 +81,7 @@ echo "Change admin_password ---------------------------- done"
 
 sleep 2
 echo "Insert [paste_deploy]"
-sed -i 's/#flavor=/flavor= keystone/' /etc/glance/glance-registry.conf
+sed -i 's/#flavor=/flavor = keystone/' /etc/glance/glance-registry.conf
 echo "Change flavor ---------------------------- done"
 
 

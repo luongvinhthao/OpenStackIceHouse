@@ -100,8 +100,7 @@ admin_user = nova
 admin_password = $NOVA_PASS
 EOF
 
-echo "---------------------------- Restart nova-network ----------------------------"
-service nova-network restart
-service nova-api-metadata restart
+echo "---------------------------- Restart nova- ----------------------------"
+for ii in /etc/init.d/nova-*; do restart $(basename $ii); done
 sleep 3
 echo "---------------------------- Finish nova compute ----------------------------"

@@ -71,3 +71,11 @@ echo "Edit /etc/cinder/cinder.conf---------------------------- done"
 echo "---------------------------- Restart Cinder Service  ----------------------------"
 service cinder-volume restart
 service tgt restart
+i= egrep -c '(vmx|svm)' /proc/cpuinfo
+echo $i
+if [[ i -eq 0 ]]; then
+	#statements
+	echo "0"
+else
+	echo "1"
+fi

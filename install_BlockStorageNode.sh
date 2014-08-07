@@ -13,8 +13,8 @@ apt-get install -y ntp
 echo "---------------------------- Install BlockStorage on BlockStorageNode ----------------------------"
 apt-get install lvm2
 echo "Install lvm2----------------------------done"
-#pvcreate /dev/sdb
-#vgcreate cinder-volumes /dev/sdb
+pvcreate /dev/sdb
+vgcreate cinder-volumes /dev/sdb
 echo "Create the LVM physical and logical volumes---------------------------- done"
 
 if [[ ! -f /etc/lvm/lvm.conf.bak ]]; then
@@ -23,7 +23,7 @@ if [[ ! -f /etc/lvm/lvm.conf.bak ]]; then
 fi
 echo "Edit /etc/lvm/lvm.conf---------------------------- done"
 
-apt-get install cinder-volume -y 
+apt-get install cinder-volume python-mysqldb -y 
 
 if [[ ! -f /etc/cinder/cinder.conf.bak ]]; then
 	#statements

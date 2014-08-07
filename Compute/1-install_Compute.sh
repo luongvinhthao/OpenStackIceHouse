@@ -4,19 +4,19 @@ set -e
 
 echo "---------------------------- Install_nova_compute ----------------------------"
 apt-get install -y nova-compute-kvm python-guestfs nova-network nova-api-metadata
-dpkg-statoverride  --update --add root root 0644 /boot/vmlinuz-$(uname -r)
-if [ ! -f /etc/kernel/postinst.d/statoverride ]; then
-	mkdir /etc/kernel/postinst.d/statoverride
-fi
-cat > /etc/kernel/postinst.d/statoverride << EOF
+#dpkg-statoverride  --update --add root root 0644 /boot/vmlinuz-$(uname -r)
+#if [ ! -f /etc/kernel/postinst.d/statoverride ]; then
+#	mkdir /etc/kernel/postinst.d/statoverride
+#fi
+#cat > /etc/kernel/postinst.d/statoverride << EOF
 #!/bin/sh
-version="$1"
+#version="$1"
 # passing the kernel version is required
-[ -z "${version}" ] && exit 0
-dpkg-statoverride --update --add root root 0644 /boot/vmlinuz-${version}
-EOF
+#[ -z "${version}" ] && exit 0
+#dpkg-statoverride --update --add root root 0644 /boot/vmlinuz-${version}
+#EOF
 
-chmod +x /etc/kernel/postinst.d/statoverride
+#chmod +x /etc/kernel/postinst.d/statoverride
 
 if [[ ! /etc/nova/nova.conf.bak ]]; then
 	#statements
@@ -104,4 +104,16 @@ EOF
 echo "---------------------------- Restart nova- ----------------------------"
 for ii in /etc/init.d/nova-*; do restart $(basename $ii); done
 sleep 3
+
+
+
+if [[ ! -f /etc/nova/nova-compute.conf ]]; then
+	#statements
+	cp /etc/nova/nova-compute.conf /etc/nova/nova-compute.conf.bak 
+fi
+
+echo "Edit virt_type=qemu---------------------------- done"
+sed -i 's/virt_type=kvm/virt_type=qemu/' /etc/nova/nova-compute.conf
+
 echo "---------------------------- Finish nova compute ----------------------------"
+

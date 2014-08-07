@@ -14,7 +14,7 @@ echo "$HOST_NAME_COMPUTE" > /etc/hostname
 
 echo "---------------------------- Install and config NTP ----------------------------"
 apt-get install -y ntp
-
+echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf 
 echo "---------------------------- Restart NTP ----------------------------"
 sleep 3
 service ntp restart

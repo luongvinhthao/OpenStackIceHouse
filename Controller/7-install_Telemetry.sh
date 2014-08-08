@@ -47,7 +47,6 @@ sed -i "s|#admin_password=<None>|admin_password = $CEILOMETER_PASS|" /etc/ceilom
 sleep 2
 echo "Change keystone_authtoken---------------------------- done"
 
-[service_credentials]
 
 sed -i "s|#os_username=ceilometer|os_username = ceilometer|" /etc/ceilometer/ceilometer.conf
 sed -i "s|#os_auth_url=http://localhost:5000/v2.0|os_auth_url = http://$HOST_NAME:5000/v2.0|" /etc/ceilometer/ceilometer.conf

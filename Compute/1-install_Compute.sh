@@ -63,6 +63,12 @@ novncproxy_base_url=http://$HOST_IP:6080/vnc_auto.html
 
 glance_host=controller
 
+instance_usage_audit = True
+instance_usage_audit_period = hour
+notify_on_state_change = vm_and_task_state
+notification_driver = nova.openstack.common.notifier.rpc_notifier
+notification_driver = ceilometer.compute.nova_notifier
+
 # Networking Flat
 
 network_api_class = nova.network.api.API

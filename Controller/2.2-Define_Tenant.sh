@@ -50,3 +50,11 @@ echo "Create user nova ---------------------------- done "
 keystone user-role-add --user=cinder --tenant=$SERVICE_TENANT_NAME --role=admin
 echo "Add role admin to user cinder---------------------------- done "
 echo "--------------------------- Finish---------------------------- "
+
+echo "--------------------------- Create newtron---------------------------- "
+keystone user-create --name=neutron --pass=$NEUTRON_PASS --email=thaolvqn@gmail.com
+echo "Create user nova ---------------------------- done "
+keystone user-role-add --user=neutron --tenant=$SERVICE_TENANT_NAME --role=admin
+echo "Add role admin to user cinder---------------------------- done "
+echo "--------------------------- Finish---------------------------- "
+

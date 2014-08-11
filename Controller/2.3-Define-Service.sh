@@ -46,6 +46,21 @@ sleep 3
   --publicurl=http://$HOST_NAME:8776/v1/%\(tenant_id\)s \
   --internalurl=http://$HOST_NAME:8776/v1/%\(tenant_id\)s \
   --adminurl=http://$HOST_NAME:8776/v1/%\(tenant_id\)s
+
+echo "--------------------------- Create Newtron Service ---------------------------- "
+sleep 3
+
+ keystone service-create --name=neutron --type=network \
+  --description="Openstack Networking  Service"
+
+   keystone endpoint-create \
+  --service-id $(keystone service-list | awk '/ network / {print $2}') \
+  --publicurl http://controller:9696 \
+  --adminurl http://controller:9696 \
+  --internalurl http://controller:9696
+
+
+
 echo "--------------------------- Create variable ---------------------------- "
 echo "export OS_USERNAME=admin" > admin-openrc.sh
 echo "export OS_PASSWORD=openstack12345" >> admin-openrc.sh

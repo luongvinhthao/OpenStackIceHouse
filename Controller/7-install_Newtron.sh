@@ -58,6 +58,7 @@ echo "---------------------------- edit /etc/neutron/plugins/ml2/ml2_conf.ini---
 
 	sed -i "s/# tunnel_id_ranges =/tunnel_id_ranges = 1:1000/" /etc/neutron/plugins/ml2/ml2_conf.ini
 	echo " add ml2_type_gre ---------------------------- done"
+
 	sed -i "s/# enable_security_group = True/enable_security_group = True/" /etc/neutron/plugins/ml2/ml2_conf.ini
 	sed -i "/enable_security_group = True/afirewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver" /etc/neutron/plugins/ml2/ml2_conf.ini
 echo "---------------------------- edit /etc/nova/nova.conf----------------------------"
@@ -66,10 +67,15 @@ echo "---------------------------- edit /etc/nova/nova.conf---------------------
 	neutron_admin_tenant_name = service\n\
 	network_api_class = nova.network.neutronv2.api.API\n\
 	neutron_admin_username = neutron\n\
-	neutron_admin_password = NEUTRON_PASS\n\
+	neutron_admin_password = $NEUTRON_PASS\n\
 	neutron_admin_auth_url = http://controller:35357/v2.0\n\
 	linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver\n\
 	firewall_driver = nova.virt.firewall.NoopFirewallDriver\n\
-	security_group_api = neutron" /etc/nova/nova.conf
+	security_group_api = neutron\n\
+	service_neutron_metadata_proxy = true\n\
+	neutron_metadata_proxy_shared_secret = $METADATA_SECRET" /etc/nova/nova.conf
 
-echo "---------------------------- finish----------------------------"
+
+echo "---------------------------- Restart nova-api service----------------------------"
+service nova-api restart
+echo "---------------------------- Finish----------------------------"

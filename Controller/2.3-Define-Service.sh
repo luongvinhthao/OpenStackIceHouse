@@ -54,10 +54,10 @@ sleep 3
   --description="Openstack Networking  Service"
 
    keystone endpoint-create \
-  --service-id $(keystone service-list | awk '/ network / {print $2}') \
-  --publicurl http://controller:9696 \
-  --adminurl http://controller:9696 \
-  --internalurl http://controller:9696
+  --service-id=$(keystone service-list | awk '/ network / {print $2}') \
+  --publicurl=http://$HOST_NAME:9696 \
+  --adminurl=http://$HOST_NAME:9696 \
+  --internalurl=http://$HOST_NAME:9696
 
 
 

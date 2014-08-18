@@ -74,6 +74,7 @@ echo "---------------------------- edit /etc/neutron/metadata_agent.ini --------
 	sed -i "s|auth_region = RegionOne|auth_region = regionOne|" /etc/neutron/metadata_agent.ini
 	sed -i "s|admin_tenant_name = %SERVICE_TENANT_NAME%|admin_tenant_name = service|" /etc/neutron/metadata_agent.ini
 	sed -i "s|admin_user = %SERVICE_USER%|admin_user = neutron|" /etc/neutron/metadata_agent.ini
+	sed -i "s|# nova_metadata_ip = 127.0.0.1|nova_metadata_ip = controller|" /etc/neutron/metadata_agent.ini
 	sed -i "s|admin_password = %SERVICE_PASSWORD%|admin_password = $NEUTRON_PASS|" /etc/neutron/metadata_agent.ini
 	sed -i "s|# metadata_proxy_shared_secret =|metadata_proxy_shared_secret = $METADATA_SECRET|" /etc/neutron/metadata_agent.ini
 
@@ -95,6 +96,7 @@ echo "---------------------------- edit /etc/neutron/plugins/ml2/ml2_conf.ini --
 	echo " add ml2_type_gre ---------------------------- done"
 
 	sed -i "/# Example: vxlan_group = 239.1.1.1/a\# add new ovs section\n\
+	[ovs]\n\
 	local_ip = $VM_IP_NETWORK\n\
 	tunnel_type = gre\n\
 	enable_tunneling = True" /etc/neutron/plugins/ml2/ml2_conf.ini

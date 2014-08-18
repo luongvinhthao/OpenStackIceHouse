@@ -30,7 +30,7 @@ echo "---------------------------- edit neutron.conf----------------------------
 	sed -i "s|# nova_url = http://127.0.0.1:8774/v2|nova_url = http://$HOST_NAME:8774/v2|" /etc/neutron/neutron.conf
 	sed -i "s|# nova_admin_username =|nova_admin_username = nova|" /etc/neutron/neutron.conf
 
-	sed -i "s|# nova_admin_tenant_id =|nova_admin_tenant_id = $(keystone service-list | awk '/ network / {print $2}')|" /etc/neutron/neutron.conf
+	sed -i "s|# nova_admin_tenant_id =|nova_admin_tenant_id = $(keystone service-list | awk '/ service / {print $2}')|" /etc/neutron/neutron.conf
 	sed -i "s|# nova_admin_password =|nova_admin_password = $NOVA_PASS|" /etc/neutron/neutron.conf
 	sed -i "s|# nova_admin_auth_url =|nova_admin_auth_url = http://$HOST_NAME:35357/v2.0|" /etc/neutron/neutron.conf
 

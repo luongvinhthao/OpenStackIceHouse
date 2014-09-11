@@ -75,6 +75,8 @@ echo "---------------------------- edit /etc/neutron/metadata_agent.ini --------
 	sed -i "s|admin_tenant_name = %SERVICE_TENANT_NAME%|admin_tenant_name = service|" /etc/neutron/metadata_agent.ini
 	sed -i "s|admin_user = %SERVICE_USER%|admin_user = neutron|" /etc/neutron/metadata_agent.ini
 	sed -i "s|# nova_metadata_ip = 127.0.0.1|nova_metadata_ip = controller|" /etc/neutron/metadata_agent.ini
+	
+	sed -i "s|# nova_metadata_port = 8775|nova_metadata_port = 8775|" /etc/neutron/metadata_agent.ini
 	sed -i "s|admin_password = %SERVICE_PASSWORD%|admin_password = $NEUTRON_PASS|" /etc/neutron/metadata_agent.ini
 	sed -i "s|# metadata_proxy_shared_secret =|metadata_proxy_shared_secret = $METADATA_SECRET|" /etc/neutron/metadata_agent.ini
 

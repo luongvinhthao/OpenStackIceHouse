@@ -19,6 +19,8 @@ echo "---------------------------- install neutron-plugin-ml2  -----------------
 		echo "back up file neutron.conf"
 	fi
 echo "---------------------------- edit neutron.conf ----------------------------"
+	sed -i "s|connection = sqlite:////var/lib/neutron/neutron.sqlite|connection = mysql://neutron:openstack12345@controller/neutron|" /etc/neutron/neutron.conf
+
 	sed -i "s/# auth_strategy = keystone/auth_strategy = keystone/" /etc/neutron/neutron.conf
 
 	sed -i '/auth_host = 127.0.0.1/aauth_uri = http://HOST_NAME:5000/' /etc/neutron/neutron.conf
@@ -41,8 +43,12 @@ echo "---------------------------- edit neutron.conf ---------------------------
 	sed -i "s|core_plugin = neutron.plugins.ml2.plugin.Ml2Plugin|core_plugin = ml2|" /etc/neutron/neutron.conf
 	sed -i "s|# service_plugins =|service_plugins = router|" /etc/neutron/neutron.conf
 	sed -i "s|# allow_overlapping_ips = False|allow_overlapping_ips = True|" /etc/neutron/neutron.conf
+	sed -i "s|# agent_down_time = 75|agent_down_time = 75|" /etc/neutron/neutron.conf
+	sed -i "s|# report_interval = 30|report_interval = 5|" /etc/neutron/neutron.conf
+
 	echo " edit [core_plugin ] ---------------------------- done"
 		sed -i "s|# verbose = False|verbose = True|" /etc/neutron/neutron.conf
+
 
 	echo " edit [turn on log ] ---------------------------- done"
 
@@ -78,7 +84,7 @@ echo "---------------------------- Restart the OVS service----------------------
 service openvswitch-switch restart
 
 echo "---------------------------- Add the integration bridge----------------------------"
-ovs-vsctl add-br br-int
+#ovs-vsctl add-br br-int
 
 
 

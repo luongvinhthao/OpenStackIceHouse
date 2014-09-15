@@ -3,7 +3,7 @@ source config.cnf
 set -e 
 
 echo "---------------------------- Update ubuntu package ----------------------------"
-
+apt-get install -y software-properties-common
 apt-get install -y python-software-properties && add-apt-repository cloud-archive:icehouse -y
 apt-get update && apt-get -y upgrade && apt-get -y dist-upgrade 
 

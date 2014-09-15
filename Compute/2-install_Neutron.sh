@@ -72,7 +72,9 @@ echo "---------------------------- edit /etc/neutron/plugins/ml2/ml2_conf.ini --
 	[ovs]\n\
 	local_ip = $VM_IP_NETWORK\n\
 	tunnel_type = gre\n\
-	enable_tunneling = True" /etc/neutron/plugins/ml2/ml2_conf.ini
+	enable_tunneling = True\n\
+	integration_bridge = br-int\n\
+	tunnel_bridge = br-tun" /etc/neutron/plugins/ml2/ml2_conf.ini
 
 	echo " add ovesection ---------------------------- done"
 	
